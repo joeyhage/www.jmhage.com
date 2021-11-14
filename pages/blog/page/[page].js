@@ -10,6 +10,7 @@ import HeroBanner from "@components/HeroBanner";
 
 export default function BlogIndexPage(props) {
   const {
+    assets,
     postSummaries,
     totalPages,
     currentPage,
@@ -24,10 +25,10 @@ export default function BlogIndexPage(props) {
   const pageTitle = pageContent ? pageContent.title : "Blog";
   const pageDescription = pageContent
     ? pageContent.description
-    : "Articles | Next.js Contentful blog starter";
+    : "Articles | Joey Hage";
 
   return (
-    <MainLayout preview={preview}>
+    <MainLayout assets={assets} preview={preview}>
       <PageMeta
         title={`${pageTitle} Page ${currentPage}`}
         description={pageDescription}
@@ -87,9 +88,11 @@ export async function getStaticProps({ params, preview = false }) {
       preview: preview,
     },
   );
+  const assets = await ContentfulApi.getSiteAssets();
 
   return {
     props: {
+      assets,
       preview,
       postSummaries: postSummaries.items,
       totalPages,

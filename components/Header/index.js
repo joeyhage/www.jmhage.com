@@ -1,12 +1,13 @@
-import HeaderStyles from "@styles/Header.module.css";
-import Link from "next/link";
 import SocialLinks from "@components/SocialLinks";
-import { useRouter } from "next/router";
+import HeaderStyles from "@styles/Header.module.css";
 import { Config } from "@utils/Config";
-import Logo from "./svg/Logo";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
-export default function Header() {
+export default function Header({ assets }) {
   const router = useRouter();
+  const headerImage = assets.find((asset) => asset.sys.id === "rImaN1nOhnl7aJ4OYwbOp");
 
   return (
     <header className={HeaderStyles.header}>
@@ -16,7 +17,12 @@ export default function Header() {
             className={HeaderStyles.header__logoContainerLink}
             aria-label="Navigate to home page"
           >
-            <Logo />
+            <Image
+              src={headerImage.url}
+              height={96}
+              width={96}
+              alt={headerImage.description}
+            />
           </a>
         </Link>
       </div>

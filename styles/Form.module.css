@@ -1,0 +1,55 @@
+.fieldset {
+  font-family: inherit;
+  font-size: 100%;
+  color: inherit;
+  border: none;
+  border-radius: 0;
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.label {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  padding-top: 0.2rem;
+  display: flex;
+  align-items: baseline;
+}
+
+.field {
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 0.75em 0.75rem;
+  margin: 0 0 1.5rem 0;
+  font-family: inherit;
+  font-size: 1rem;
+  color: inherit;
+  border-radius: 0;
+  display: block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.button {
+  width: auto;
+  cursor: pointer;
+  -webkit-appearance: button;
+  -moz-appearance: button;
+  appearance: button;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 0.75em 0.75rem;
+  margin: 0;
+  font-family: inherit;
+  font-size: 1rem;
+  color: inherit;
+  border-radius: 0;
+  display: block;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}

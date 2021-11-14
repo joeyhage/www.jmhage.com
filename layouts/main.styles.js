@@ -29,9 +29,9 @@ export default css.global`
 
     --wrapper-max-width: 48rem;
 
-    --header-nav-item-active-color: #b7ded0;
-    --footer-copyright-color: #b7ded0;
-    --external-url-background-color: #b7ded0;
+    --header-nav-item-active-color: #bea48a;
+    --footer-copyright-color: #fff;
+    --external-url-background-color: #bea48a;
   }
 
   html {

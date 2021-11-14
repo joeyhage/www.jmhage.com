@@ -6,10 +6,10 @@ import MainLayout from "@layouts/main";
 import ContentWrapper from "@components/ContentWrapper";
 
 export default function PostWrapper(props) {
-  const { post, preview } = props;
+  const { assets, post, preview } = props;
 
   return (
-    <MainLayout preview={preview}>
+    <MainLayout assets={assets} preview={preview}>
       <PageMeta
         title={post.title}
         description={post.excerpt}
@@ -52,8 +52,11 @@ export async function getStaticProps({ params, preview = false }) {
     };
   }
 
+  const assets = await ContentfulApi.getSiteAssets();
+
   return {
     props: {
+      assets,
       preview,
       post,
     },

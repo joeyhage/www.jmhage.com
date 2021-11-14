@@ -3,16 +3,21 @@ const SITE_URL = "https://www.jmhage.com";
 export const Config = {
   site: {
     owner: "Joey Hage",
-    title: "My new Next.js + Contentful blog site",
+    title: "Joey Hage",
     domain: "www.jmhage.com",
   },
   pageMeta: {
     openGraph: {
-      twitterUser: "contentful",
+      githubUser: "joeyhage",
+      linkedInUser: "jmhage",
     },
     home: {
       url: SITE_URL,
       slug: "/",
+    },
+    projects: {
+      url: SITE_URL,
+      slug: "/projects",
     },
     blogIndex: {
       url: `${SITE_URL}/blog`,
@@ -23,6 +28,10 @@ export const Config = {
     },
     post: {
       slug: "/blog/[slug]",
+    },
+    contact: {
+      url: SITE_URL,
+      slug: "/contact",
     },
     notFound: {
       url: SITE_URL,
@@ -39,8 +48,16 @@ export const Config = {
       path: "/",
     },
     {
+      displayName: "Projects",
+      path: "/projects",
+    },
+    {
       displayName: "Blog",
       path: "/blog",
+    },
+    {
+      displayName: "Contact",
+      path: "/contact",
     },
   ],
 };

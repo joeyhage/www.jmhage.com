@@ -1,20 +1,20 @@
 import SocialLinksStyles from "@styles/SocialLinks.module.css";
-import Twitter from "./svgs/twitter";
-import Feed from "./svgs/feed";
+import { GitHub } from "./svgs/github";
+import { LinkedIn } from "./svgs/linkedin";
 import { Config } from "@utils/Config";
 
 const socialLinksList = [
   {
-    name: "Twitter",
-    url: `https://twitter.com/${Config.pageMeta.openGraph.twitterUser}`,
-    ariaLabel: "Follow me on Twitter",
-    svg: <Twitter />,
+    name: "GitHub",
+    url: `https://github.com/${Config.pageMeta.openGraph.githubUser}`,
+    ariaLabel: "Check out my GitHub",
+    svg: <GitHub />,
   },
   {
-    name: "RSS Feed",
-    url: "feed.xml",
-    ariaLabel: `View the RSS feed of ${Config.site.domain}`,
-    svg: <Feed />,
+    name: "LinkedIn",
+    url: `https://linkedin.com/in/${Config.pageMeta.openGraph.githubUser}`,
+    ariaLabel: "Connect with me on LinkedIn",
+    svg: <LinkedIn />,
   },
 ];
 

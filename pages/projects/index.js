@@ -1,17 +1,16 @@
-import { Config } from "@utils/Config";
+import ContentWrapper from "@components/ContentWrapper";
+import HeroBanner from "@components/HeroBanner";
+import PageContentWrapper from "@components/PageContentWrapper";
 import PageMeta from "@components/PageMeta";
-import ContentfulApi from "@utils/ContentfulApi";
 import RichTextPageContent from "@components/RichTextPageContent";
 import MainLayout from "@layouts/main";
-import RecentPostList from "@components/RecentPostList";
-import HeroBanner from "@components/HeroBanner";
-import ContentWrapper from "@components/ContentWrapper";
-import PageContentWrapper from "@components/PageContentWrapper";
+import { Config } from "@utils/Config";
+import ContentfulApi from "@utils/ContentfulApi";
 
-export default function Home(props) {
+export default function Projects(props) {
   const { assets, pageContent, recentPosts, preview } = props;
 
-  const pageTitle = pageContent ? pageContent.title : "Home";
+  const pageTitle = pageContent ? pageContent.title : "Projects";
 
   const pageDescription = pageContent
     ? pageContent.description
@@ -36,7 +35,6 @@ export default function Home(props) {
               <RichTextPageContent richTextBodyField={pageContent.body} />
             </PageContentWrapper>
           )}
-          <RecentPostList posts={recentPosts} />
         </ContentWrapper>
       </MainLayout>
     </>
@@ -45,7 +43,7 @@ export default function Home(props) {
 
 export async function getStaticProps({ preview = false }) {
   const pageContent = await ContentfulApi.getPageContentBySlug(
-    Config.pageMeta.home.slug,
+    Config.pageMeta.projects.slug,
     {
       preview: preview,
     },

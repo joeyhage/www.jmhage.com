@@ -105,7 +105,6 @@ export default class ContentfulApi {
 
     const response = await this.callContentful(query, variables, options);
 
-    console.log(JSON.stringify(response));
     const pageContent = response.data.pageContentCollection.items
       ? response.data.pageContentCollection.items
       : [];
@@ -294,38 +293,6 @@ export default class ContentfulApi {
   }
 
   /**
-   * Fetch all blog posts.
-   *
-   * This method queries the GraphQL API for blog posts
-   * in batches that accounts for the query complexity cost,
-   * and returns them in one array.
-   *
-   * This method is used to build the RSS feed on pages/buildrss.
-   *
-   * For more information about GraphQL query complexity, visit:
-   * https://www.contentful.com/developers/videos/learn-graphql/#graphql-fragments-and-query-complexity
-   *
-   */
-  static async getAllBlogPosts() {
-    let page = 1;
-    let shouldQueryMorePosts = true;
-    const returnPosts = [];
-
-    while (shouldQueryMorePosts) {
-      const response = await this.getPaginatedBlogPosts(page);
-
-      if (response.posts.length > 0) {
-        returnPosts.push(...response.posts);
-      }
-
-      shouldQueryMorePosts = returnPosts.length < response.total;
-      page++;
-    }
-
-    return returnPosts;
-  }
-
-  /**
    * Fetch a single blog post by slug.
    *
    * This method is used on pages/blog/[slug] to fetch the data for
@@ -369,10 +336,6 @@ export default class ContentfulApi {
           author {
             name
             description
-            twitchUsername
-            twitterUsername
-            gitHubUsername
-            websiteUrl
             image {
               url
               title
@@ -545,6 +508,42 @@ export default class ContentfulApi {
       : 0;
 
     return totalPosts;
+  }
+
+  /**
+   * Fetch website assets needed for all pages
+   */
+   static async getSiteAssets() {
+    const query = `query {
+      assetCollection(where: {
+        contentfulMetadata: {
+          tags_exists: true
+          tags: {
+              id_contains_all: ["assetSite"]
+          }
+        }
+      }) {
+        items {
+          sys {
+            id
+          }
+          title
+          description
+          contentType
+          fileName
+          url
+          size
+          width
+          height
+        }
+      }
+    }`;
+
+    const response = await this.callContentful(query);
+    const assets = response.data.assetCollection.items
+      ? response.data.assetCollection.items
+      : [];
+    return assets;
   }
 
   /**
