@@ -11,7 +11,7 @@ import FormStyles from "@styles/Form.module.css";
 import ButtonStyles from "@styles/Button.module.css";
 
 export default function Contact(props) {
-  const { assets, pageContent, recentPosts, preview } = props;
+  const { assets, pageContent, preview } = props;
 
   const [formState, handleSubmit] = useForm("xrgrnkqp");
 
@@ -28,7 +28,13 @@ export default function Contact(props) {
           title={pageTitle}
           description={pageDescription}
           url={Config.pageMeta.home.url}
-        />
+        >
+          <script
+            src="https://www.google.com/recaptcha/api.js"
+            async
+            defer
+          ></script>
+        </PageMeta>
 
         {pageContent && pageContent.heroBanner !== null && (
           <HeroBanner data={pageContent.heroBanner} />
@@ -99,6 +105,10 @@ export default function Contact(props) {
                   id="email-subject"
                   value="www.jmhage.com Contact Form Submission"
                 />
+                <div
+                  className="g-recaptcha"
+                  data-sitekey="6Lco4jQdAAAAANFJt-uWbSKQfCnHn5vmY0RWnF0q"
+                />
               </fieldset>
               <button
                 className={ButtonStyles.button}
@@ -123,7 +133,6 @@ export async function getStaticProps({ preview = false }) {
     },
   );
 
-  const recentPosts = await ContentfulApi.getRecentPostList();
   const assets = await ContentfulApi.getSiteAssets();
 
   return {
@@ -131,7 +140,6 @@ export async function getStaticProps({ preview = false }) {
       assets,
       preview,
       pageContent: pageContent || null,
-      recentPosts,
     },
   };
 }

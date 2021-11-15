@@ -8,7 +8,7 @@ import { Config } from "@utils/Config";
 import ContentfulApi from "@utils/ContentfulApi";
 
 export default function Projects(props) {
-  const { assets, pageContent, recentPosts, preview } = props;
+  const { assets, pageContent, preview } = props;
 
   const pageTitle = pageContent ? pageContent.title : "Projects";
 
@@ -49,7 +49,6 @@ export async function getStaticProps({ preview = false }) {
     },
   );
 
-  const recentPosts = await ContentfulApi.getRecentPostList();
   const assets = await ContentfulApi.getSiteAssets();
 
   return {
@@ -57,7 +56,6 @@ export async function getStaticProps({ preview = false }) {
       assets,
       preview,
       pageContent: pageContent || null,
-      recentPosts,
     },
   };
 }
