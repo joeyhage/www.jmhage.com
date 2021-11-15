@@ -46,7 +46,7 @@ export default function PageMeta(props) {
       <meta name="msapplication-TileColor" content="#b91d47" />
       <meta name="theme-color" content="#f11012" />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
       <link
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
         rel="stylesheet"
