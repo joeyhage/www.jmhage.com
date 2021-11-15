@@ -19,7 +19,7 @@ export default css.global`
     --font-family-heading: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
       Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
       "Segoe UI Symbol";
-    --font-family-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    --font-family-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
       Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
       "Segoe UI Symbol";
     --font-family-code: Consolas, Monaco, "Andale Mono", "Ubuntu Mono",
@@ -42,7 +42,7 @@ export default css.global`
   body {
     font-size: 1rem;
     font-weight: var(--font-weight-light);
-    font-family: var(--font-family-body);
+    font-family: var(--font-family-main);
     color: var(--color-foreground);
     margin: 0;
   }

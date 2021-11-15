@@ -1,6 +1,6 @@
-import Head from "next/head";
-import OpenGraph from "@utils/OpenGraph";
 import { Config } from "@utils/Config";
+import OpenGraph from "@utils/OpenGraph";
+import Head from "next/head";
 
 export default function PageMeta(props) {
   const { title, description, url, canonical } = props;
@@ -45,6 +45,12 @@ export default function PageMeta(props) {
       <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0f111a" />
       <meta name="msapplication-TileColor" content="#b91d47" />
       <meta name="theme-color" content="#f11012" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+      <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
+        rel="stylesheet"
+      />
       {props.children}
     </Head>
   );

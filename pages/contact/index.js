@@ -1,14 +1,14 @@
-import { Config } from "@utils/Config";
-import PageMeta from "@components/PageMeta";
-import ContentfulApi from "@utils/ContentfulApi";
-import RichTextPageContent from "@components/RichTextPageContent";
-import MainLayout from "@layouts/main";
-import { useForm, ValidationError } from "@formspree/react";
-import HeroBanner from "@components/HeroBanner";
 import ContentWrapper from "@components/ContentWrapper";
+import HeroBanner from "@components/HeroBanner";
 import PageContentWrapper from "@components/PageContentWrapper";
-import FormStyles from "@styles/Form.module.css";
+import PageMeta from "@components/PageMeta";
+import RichTextPageContent from "@components/RichTextPageContent";
+import { useForm, ValidationError } from "@formspree/react";
+import MainLayout from "@layouts/main";
 import ButtonStyles from "@styles/Button.module.css";
+import FormStyles from "@styles/Form.module.css";
+import { Config } from "@utils/Config";
+import ContentfulApi from "@utils/ContentfulApi";
 
 export default function Contact(props) {
   const { assets, pageContent, preview } = props;
@@ -47,7 +47,9 @@ export default function Contact(props) {
             </PageContentWrapper>
           )}
           {formState.succeeded ? (
-            <p>Thanks for reaching out! I will get back to you soon.</p>
+            <p style={{ textAlign: "center", fontSize: "1.5rem" }}>
+              Thanks for reaching out! I will get back to you soon.
+            </p>
           ) : (
             <form onSubmit={handleSubmit}>
               <fieldset className={FormStyles.fieldset}>
@@ -73,14 +75,14 @@ export default function Contact(props) {
                 <input
                   className={FormStyles.field}
                   type="email"
-                  name="_replyto"
+                  name="email"
                   id="email-address"
                   placeholder="email@domain.tld"
                   required
                 />
                 <ValidationError
                   prefix="Email Address"
-                  field="_replyto"
+                  field="email"
                   errors={formState.errors}
                 />
                 <label htmlFor="message" className={FormStyles.label}>
@@ -108,6 +110,7 @@ export default function Contact(props) {
                 <div
                   className="g-recaptcha"
                   data-sitekey="6Lco4jQdAAAAANFJt-uWbSKQfCnHn5vmY0RWnF0q"
+                  style={{ marginBottom: "1rem" }}
                 />
               </fieldset>
               <button

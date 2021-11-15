@@ -44,6 +44,7 @@
 .header__navList {
   list-style: none;
   padding: 0;
+  text-align: center;
 }
 
 .header__navListItem {

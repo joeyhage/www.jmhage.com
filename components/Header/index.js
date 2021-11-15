@@ -7,7 +7,9 @@ import { useRouter } from "next/router";
 
 export default function Header({ assets }) {
   const router = useRouter();
-  const headerImage = assets.find((asset) => asset.sys.id === "rImaN1nOhnl7aJ4OYwbOp");
+  const headerImage = assets.find(
+    (asset) => asset.sys.id === "rImaN1nOhnl7aJ4OYwbOp",
+  );
 
   return (
     <header className={HeaderStyles.header}>

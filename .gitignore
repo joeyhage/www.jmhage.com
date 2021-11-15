@@ -76,6 +76,8 @@ typings/
 
 # Next.js build output
 .next
+public/sitemap.xml
+public/robots.txt
 
 # Nuxt.js build / generate output
 .nuxt

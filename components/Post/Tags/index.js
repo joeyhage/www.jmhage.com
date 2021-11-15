@@ -1,8 +1,6 @@
 import TagsStyles from "@styles/Tags.module.css";
 
-export default function Tags(props) {
-  const { tags } = props;
-
+export default function Tags({ tags }) {
   return (
     <ul className={TagsStyles.tags}>
       {tags.map((tag) => (

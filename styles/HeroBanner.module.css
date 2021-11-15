@@ -52,7 +52,7 @@
   line-height: 1.6;
   margin-bottom: 3rem;
   font-weight: var(--font-weight-normal);
-  font-family: var(--font-family-main);
+  font-family: 'Roboto', var(--font-family-main);
   color: var(--color-background);
   background-color: var(--color-foreground);
   padding: 0.5rem 1rem;
@@ -63,7 +63,7 @@
   line-height: 1.6;
   margin-bottom: 2rem;
   font-weight: var(--font-weight-normal);
-  font-family: var(--font-family-main);
+  font-family: 'Roboto', var(--font-family-main);
   color: var(--color-background);
   background-color: var(--color-foreground);
   padding: 0.5rem 1rem;

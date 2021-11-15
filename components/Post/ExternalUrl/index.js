@@ -2,9 +2,7 @@ import ExternalUrlStyles from "@styles/ExternalUrl.module.css";
 import Link from "next/link";
 import InfoSvg from "./InfoSvg";
 
-export default function ExternalUrl(props) {
-  const { url } = props;
-
+export default function ExternalUrl({ url }) {
   function formatUrlForDisplay(url) {
     return new URL(url).hostname;
   }

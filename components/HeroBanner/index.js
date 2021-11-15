@@ -1,17 +1,11 @@
+import ButtonStyles from "@styles/Button.module.css";
+import HeroBannerStyles from "@styles/HeroBanner.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import HeroBannerStyles from "@styles/HeroBanner.module.css";
-import ButtonStyles from "@styles/Button.module.css";
 
 export default function HeroBanner(props) {
-  const {
-    headline,
-    subHeading,
-    ctaText,
-    internalLink,
-    externalLink,
-    image,
-  } = props.data;
+  const { headline, subHeading, ctaText, internalLink, externalLink, image } =
+    props.data;
 
   return (
     <section className={HeroBannerStyles.heroBanner}>
@@ -39,7 +33,12 @@ export default function HeroBanner(props) {
         {internalLink && ctaText && (
           <div className={HeroBannerStyles.heroBanner__ctaContainer}>
             <Link href={internalLink}>
-              <a className={ButtonStyles.button}>{ctaText}</a>
+              <a
+                className={ButtonStyles.button}
+                style={{ fontFamily: "Roboto" }}
+              >
+                {ctaText}
+              </a>
             </Link>
           </div>
         )}

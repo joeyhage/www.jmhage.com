@@ -1,15 +1,14 @@
-import Link from "next/link";
-import ReactMarkdown from "react-markdown";
-import RecentPostListStyles from "@styles/RecentPostList.module.css";
-import ButtonStyles from "@styles/Button.module.css";
 import PublishedDate from "@components/Post/PublishedDate";
 import Tags from "@components/Post/Tags";
+import ButtonStyles from "@styles/Button.module.css";
 import ContentListStyles from "@styles/ContentList.module.css";
+import RecentPostListStyles from "@styles/RecentPostList.module.css";
 import { Config } from "@utils/Config";
 import ReactMarkdownRenderers from "@utils/ReactMarkdownRenderers";
+import Link from "next/link";
+import ReactMarkdown from "react-markdown";
 
-export default function RecentPostList(props) {
-  const { posts } = props;
+export default function RecentPostList({ posts }) {
   return (
     <>
       <h2 className={RecentPostListStyles.recentPostList__header}>

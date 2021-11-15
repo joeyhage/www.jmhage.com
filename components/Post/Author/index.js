@@ -1,66 +1,7 @@
-import Image from "next/image";
 import AuthorStyles from "@styles/Author.module.css";
-import TypographyStyles from "@styles/Typography.module.css";
+import Image from "next/image";
 
-function renderTwitter(username) {
-  return (
-    <a
-      className={`${TypographyStyles.inlineLink} ${AuthorStyles.author__linkText}`}
-      href={`https://twitter.com/${username}`}
-      target="_blank"
-      rel="nofollow noreferrer"
-    >
-      Twitter
-    </a>
-  );
-}
-
-function renderTwitch(username) {
-  return (
-    <a
-      className={`${TypographyStyles.inlineLink} ${AuthorStyles.author__linkText}`}
-      href={`https://twitch.tv/${username}`}
-      target="_blank"
-      rel="nofollow noreferrer"
-    >
-      Twitch
-    </a>
-  );
-}
-
-function renderGitHub(username) {
-  return (
-    <a
-      className={`${TypographyStyles.inlineLink} ${AuthorStyles.author__linkText}`}
-      href={`https://github.com/${username}`}
-      target="_blank"
-      rel="nofollow noreferrer"
-    >
-      GitHub
-    </a>
-  );
-}
-
-function renderWebsite(url) {
-  return (
-    <a
-      className={`${TypographyStyles.inlineLink} ${AuthorStyles.author__linkText}`}
-      href={url}
-      target="_blank"
-      rel="nofollow noreferrer"
-    >
-      Website
-    </a>
-  );
-}
-
-export default function Author(props) {
-  const { author } = props;
-  const hasLinks =
-    author.twitterUsername ||
-    author.twitchUsername ||
-    author.gitHubUsername ||
-    author.websiteUrl;
+export default function Author({ author }) {
   return (
     <>
       <div className={AuthorStyles.author}>
@@ -78,14 +19,6 @@ export default function Author(props) {
           <p className={AuthorStyles.author__description}>
             {author.description}
           </p>
-          {hasLinks && (
-            <div className={AuthorStyles.author__links}>
-              {author.twitterUsername && renderTwitter(author.twitterUsername)}
-              {author.twitchUsername && renderTwitch(author.twitchUsername)}
-              {author.gitHubUsername && renderGitHub(author.gitHubUsername)}
-              {author.websiteUrl && renderWebsite(author.websiteUrl)}
-            </div>
-          )}
         </div>
       </div>
     </>
