@@ -53,8 +53,16 @@ export default function PageMeta({
       <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0f111a" />
       <meta name="msapplication-TileColor" content="#283848" />
       <meta name="theme-color" content="#283848" />
+      <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"
+      />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+      <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossOrigin="true"
+      />
       <link
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
         rel="stylesheet"

@@ -128,8 +128,7 @@ export default class ContentfulApi {
    */
   static async getPaginatedSlugs(page) {
     const queryLimit = 100;
-    const skipMultiplier = page === 1 ? 0 : page - 1;
-    const skip = skipMultiplier > 0 ? queryLimit * skipMultiplier : 0;
+    const skip = page === 1 ? 0 : (page - 1) * queryLimit;
 
     const variables = { limit: queryLimit, skip };
 
@@ -183,113 +182,6 @@ export default class ContentfulApi {
     }
 
     return returnSlugs;
-  }
-
-  /**
-   * Fetch a batch of blog posts (by given page number).
-   *
-   * This method queries the GraphQL API for a single batch of blog posts.
-   *
-   * The query limit of 10 is the maximum number of posts
-   * we can fetch with this query due to GraphQL complexity costs.
-   *
-   * For more information about GraphQL query complexity, visit:
-   * https://www.contentful.com/developers/videos/learn-graphql/#graphql-fragments-and-query-complexity
-   *
-   * param: page (number)
-   *
-   */
-  static async getPaginatedBlogPosts(page) {
-    const queryLimit = 10;
-    const skipMultiplier = page === 1 ? 0 : page - 1;
-    const skip = skipMultiplier > 0 ? queryLimit * skipMultiplier : 0;
-
-    const variables = { limit: queryLimit, skip };
-
-    const query = `query GetPaginatedBlogPosts($limit: Int!, $skip: Int!) {
-        blogPostCollection(limit: $limit, skip: $skip, order: date_DESC) {
-          total
-          items {
-            sys {
-              id
-            }
-            date
-            title
-            slug
-            excerpt
-            tags
-            externalUrl
-            author {
-              name
-              description
-              twitchUsername
-              twitterUsername
-              gitHubUsername
-              websiteUrl
-              image {
-                url
-                title
-                width
-                height
-                description
-              }
-            }
-            body {
-              json
-              links {
-                entries {
-                  inline {
-                    sys {
-                      id
-                    }
-                    __typename
-                    ... on BlogPost {
-                      title
-                      slug
-                    }
-                  }
-                  block {
-                    sys {
-                      id
-                    }
-                    __typename
-                    ... on VideoEmbed {
-                      title
-                      embedUrl
-                    }
-                    ... on CodeBlock {
-                      description
-                      language
-                      code
-                    }
-                  }
-                }
-                assets {
-                  block {
-                    sys {
-                      id
-                    }
-                    url
-                    title
-                    width
-                    height
-                    description
-                  }
-                }
-              }
-            }
-          }
-        }
-      }`;
-
-    const response = await this.callContentful(query, variables);
-
-    const { total } = response.data.blogPostCollection;
-    const posts = response.data.blogPostCollection.items
-      ? response.data.blogPostCollection.items
-      : [];
-
-    return { posts, total };
   }
 
   /**
@@ -422,10 +314,7 @@ export default class ContentfulApi {
      * the skip parameter would be calculated as 3 (the length of a page)
      * therefore skipping the results of page 1.
      */
-
-    const skipMultiplier = page === 1 ? 0 : page - 1;
-    const skip =
-      skipMultiplier > 0 ? Config.pagination.pageSize * skipMultiplier : 0;
+    const skip = page === 1 ? 0 : (page - 1) * Config.pagination.pageSize;
 
     const variables = { limit: Config.pagination.pageSize, skip };
 
@@ -511,9 +400,257 @@ export default class ContentfulApi {
   }
 
   /**
+   * Fetch the total number of projects.
+   */
+  static async getTotalProjectsNumber() {
+    const query = `
+      {
+        projectCollection {
+          total
+        }
+      }
+    `;
+
+    const response = await this.callContentful(query);
+    const totalPosts = response.data.projectCollection.total
+      ? response.data.projectCollection.total
+      : 0;
+
+    return totalPosts;
+  }
+
+  /**
+   * Fetch a batch of project slugs (by given page number).
+   *
+   * This method queries the GraphQL API for a single batch of project slugs.
+   *
+   * The query limit of 100 is the maximum number of slugs
+   * we can fetch with this query due to GraphQL complexity costs.
+   *
+   * For more information about GraphQL query complexity, visit:
+   * https://www.contentful.com/developers/videos/learn-graphql/#graphql-fragments-and-query-complexity
+   *
+   * param: page (number)
+   *
+   */
+  static async getPaginatedProjectSlugs(page) {
+    const queryLimit = 100;
+    const skip = page === 1 ? 0 : (page - 1) * queryLimit;
+
+    const variables = { limit: queryLimit, skip };
+
+    const query = `query GetPaginatedProjectSlugs($limit: Int!, $skip: Int!) {
+      projectCollection(limit: $limit, skip: $skip) {
+        total
+        items {
+          slug
+        }
+      }
+    }`;
+
+    const response = await this.callContentful(query, variables);
+    
+    const { total } = response.data.projectCollection;
+    const slugs = response.data.projectCollection.items
+      ? response.data.projectCollection.items.map((item) => item.slug)
+      : [];
+
+    return { slugs, total };
+  }
+
+  /**
+   * Fetch all project slugs.
+   *
+   * This method queries the GraphQL API for project slugs
+   * in batches that accounts for the query complexity cost,
+   * and returns them in one array.
+   *
+   * This method is used on pages/projects/[slug] inside getStaticPaths() to
+   * generate all dynamic project routes.
+   *
+   * For more information about GraphQL query complexity, visit:
+   * https://www.contentful.com/developers/videos/learn-graphql/#graphql-fragments-and-query-complexity
+   *
+   */
+  static async getAllProjectSlugs() {
+    let page = 1;
+    let shouldQueryMoreSlugs = true;
+    const returnSlugs = [];
+
+    while (shouldQueryMoreSlugs) {
+      const response = await this.getPaginatedProjectSlugs(page);
+
+      if (response.slugs.length > 0) {
+        returnSlugs.push(...response.slugs);
+      }
+
+      shouldQueryMoreSlugs = returnSlugs.length < response.total;
+      page++;
+    }
+
+    return returnSlugs;
+  }
+
+  /**
+   * Fetch a batch of projects (by given page number).
+   *
+   * This method queries the GraphQL API for a single batch of projects.
+   *
+   * The query limit of 10 is the maximum number of posts
+   * we can fetch with this query due to GraphQL complexity costs.
+   *
+   * For more information about GraphQL query complexity, visit:
+   * https://www.contentful.com/developers/videos/learn-graphql/#graphql-fragments-and-query-complexity
+   *
+   * param: page (number)
+   *
+   */
+  static async getPaginatedProjects(page) {
+    const queryLimit = 10;
+    const skip = page === 1 ? 0 : (page - 1) * queryLimit;
+
+    const variables = { limit: queryLimit, skip };
+
+    const query = `query GetPaginatedProjects($limit: Int!, $skip: Int!) {
+      projectCollection(limit: $limit, skip: $skip) {
+        total
+        items {
+          sys {
+            id
+          }
+          title
+          slug
+          excerpt
+          preview {
+            sys {
+              id
+            }
+            title
+            description
+            contentType
+            fileName
+            url
+            size
+            width
+            height
+          }
+        }
+      }
+    }`;
+
+    const response = await this.callContentful(query, variables);
+
+    const projects = response.data.projectCollection
+      ? response.data.projectCollection
+      : { total: 0, items: [] };
+
+    return projects;
+  }
+
+  /**
+   * Fetch a single project by slug.
+   *
+   * This method is used on pages/project/[slug] to fetch the data for
+   * individual project at build time, which are prerendered as
+   * static HTML.
+   *
+   * The content type uses the powerful Rich Text field type for the
+   * body of the project.
+   *
+   * This query fetches linked assets (i.e. images) and entries
+   * (i.e. video embed and code block entries) that are embedded
+   * in the Rich Text field. This is rendered to the page using
+   * @components/RichTextPageContent.
+   *
+   * For more information on Rich Text fields in Contentful, view the
+   * documentation here: https://www.contentful.com/developers/docs/concepts/rich-text/
+   *
+   * Linked assets and entries are parsed and rendered using the npm package
+   * @contentful/rich-text-react-renderer
+   *
+   * https://www.npmjs.com/package/@contentful/rich-text-react-renderer
+   *
+   * param: slug (string)
+   *
+   */
+  static async getProjectBySlug(slug, options = defaultOptions) {
+    const variables = { slug, preview: options.preview };
+    const query = `query GetProjectBySlug($slug: String!, $preview: Boolean!) {
+      projectCollection(limit: 1, where: {slug: $slug}, preview: $preview) {
+        total
+        items {
+          sys {
+            id
+          }
+          title
+          slug
+          excerpt
+          externalUrl
+          previewWide {
+            sys {
+              id
+            }
+            title
+            description
+            contentType
+            fileName
+            url
+            size
+            width
+            height
+          }
+          body {
+            json
+            links {
+              entries {
+                inline {
+                  sys {
+                    id
+                  }
+                  __typename
+                }
+                block {
+                  sys {
+                    id
+                  }
+                  __typename
+                  ... on CodeBlock {
+                    description
+                    language
+                    code
+                  }
+                }
+              }
+              assets {
+                block {
+                  sys {
+                    id
+                  }
+                  url
+                  title
+                  width
+                  height
+                  description
+                }
+              }
+            }
+          }
+        }
+      }
+    }`;
+
+    const response = await this.callContentful(query, variables, options);
+    const projects = response.data.projectCollection.items
+      ? response.data.projectCollection.items
+      : [];
+
+    return projects.pop();
+  }
+
+  /**
    * Fetch website assets needed for all pages
    */
-   static async getSiteAssets() {
+  static async getSiteAssets() {
     const query = `query {
       assetCollection(where: {
         contentfulMetadata: {

@@ -8,13 +8,13 @@ import MainLayout from "@layouts/main";
 import { Config } from "@utils/Config";
 import ContentfulApi from "@utils/ContentfulApi";
 
-export default function ProjectIndex(props) {
-  const { assets, projects, currentPage, totalPages, pageContent, preview } =
+export default function ProjectIndexPage(props) {
+  const { assets, projects, totalPages, currentPage, pageContent, preview } =
     props;
 
   /**
    * This provides some fallback values to PageMeta so that a pageContent
-   * entry is not required for /projects
+   * entry is not required for /blog
    */
   const pageTitle = pageContent ? pageContent.title : "Projects";
   const pageDescription = pageContent
@@ -24,9 +24,9 @@ export default function ProjectIndex(props) {
   return (
     <MainLayout assets={assets} preview={preview}>
       <PageMeta
-        title={pageTitle}
+        title={`${pageTitle} Page ${currentPage}`}
         description={pageDescription}
-        url={Config.pageMeta.blogIndex.url}
+        url={`${Config.pageMeta.projectIndex.url}/page/${currentPage}`}
       />
 
       {pageContent.heroBanner !== null && (
@@ -49,19 +49,35 @@ export default function ProjectIndex(props) {
   );
 }
 
-export async function getStaticProps({ preview = false }) {
-  const projects = await ContentfulApi.getPaginatedProjects(1);
+export async function getStaticPaths() {
+  const totalProjects = await ContentfulApi.getTotalProjectsNumber();
+  const totalPages = Math.ceil(totalProjects / Config.pagination.pageSize);
+
+  const paths = [];
+
+  /**
+   * Start from page 2, so we don't replicate /projects
+   * which is page 1
+   */
+  for (let page = 2; page <= totalPages; page++) {
+    paths.push({ params: { page: page.toString() } });
+  }
+
+  return {
+    paths,
+    fallback: false,
+  };
+}
+
+export async function getStaticProps({ params, preview = false }) {
+  const projects = await ContentfulApi.getPaginatedProjects(params.page);
+  const totalPages = Math.ceil(projects.total / Config.pagination.pageSize);
   const pageContent = await ContentfulApi.getPageContentBySlug(
     Config.pageMeta.projectIndex.slug,
     {
       preview: preview,
     },
   );
-
-  const totalPages = Math.ceil(
-    projects.total / Config.pagination.pageSize,
-  );
-
   const assets = await ContentfulApi.getSiteAssets();
 
   return {
@@ -70,7 +86,7 @@ export async function getStaticProps({ preview = false }) {
       preview,
       projects: projects.items,
       totalPages,
-      currentPage: "1",
+      currentPage: params.page,
       pageContent: pageContent || null,
     },
   };

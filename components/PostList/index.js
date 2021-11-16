@@ -1,11 +1,11 @@
-import ReactMarkdown from "react-markdown";
-import Link from "next/link";
 import PublishedDate from "@components/Post/PublishedDate";
 import Tags from "@components/Post/Tags";
 import Pagination from "@components/PostList/Pagination";
 import ContentListStyles from "@styles/ContentList.module.css";
-import ReactMarkdownRenderers from "@utils/ReactMarkdownRenderers";
 import { Config } from "@utils/Config";
+import ReactMarkdownRenderers from "@utils/ReactMarkdownRenderers";
+import Link from "next/link";
+import ReactMarkdown from "react-markdown";
 
 export default function PostList(props) {
   const { posts, currentPage, totalPages } = props;

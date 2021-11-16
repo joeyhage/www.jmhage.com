@@ -19,9 +19,15 @@ export const Config = {
       url: `${SITE_URL}/about`,
       slug: "/about",
     },
-    projects: {
+    projectIndex: {
       url: `${SITE_URL}/projects`,
       slug: "/projects",
+    },
+    projectIndexPage: {
+      slug: "/projects/page/[page]",
+    },
+    project: {
+      slug: "/projects/[slug]",
     },
     blogIndex: {
       url: `${SITE_URL}/blog`,
@@ -43,7 +49,7 @@ export const Config = {
     },
   },
   pagination: {
-    pageSize: 2,
+    pageSize: 3,
     recentPostsSize: 3,
   },
   menuLinks: [
