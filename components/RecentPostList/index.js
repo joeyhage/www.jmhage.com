@@ -38,7 +38,9 @@ export default function RecentPostList({ posts }) {
         ))}
       </ol>
       <Link href={Config.pageMeta.blogIndex.slug}>
-        <a className={ButtonStyles.button}>See more articles</a>
+        <a className={ButtonStyles.button} style={{ fontFamily: "Roboto" }}>
+          See more articles
+        </a>
       </Link>
     </>
   );

@@ -7,8 +7,8 @@ import MainLayout from "@layouts/main";
 import { Config } from "@utils/Config";
 import ContentfulApi from "@utils/ContentfulApi";
 
-export default function Projects({ assets, pageContent, preview }) {
-  const pageTitle = pageContent ? pageContent.title : "Projects";
+export default function About({ assets, pageContent, preview }) {
+  const pageTitle = pageContent ? pageContent.title : "About me";
 
   const pageDescription = pageContent
     ? pageContent.description
@@ -41,7 +41,7 @@ export default function Projects({ assets, pageContent, preview }) {
 
 export async function getStaticProps({ preview = false }) {
   const pageContent = await ContentfulApi.getPageContentBySlug(
-    Config.pageMeta.projects.slug,
+    Config.pageMeta.about.slug,
     {
       preview: preview,
     },

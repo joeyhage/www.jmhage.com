@@ -107,12 +107,12 @@ export default function Contact(props) {
                   id="email-subject"
                   value="www.jmhage.com Contact Form Submission"
                 />
-                <div
-                  className="g-recaptcha"
-                  data-sitekey="6Lco4jQdAAAAANFJt-uWbSKQfCnHn5vmY0RWnF0q"
-                  style={{ marginBottom: "1rem" }}
-                />
               </fieldset>
+              <div
+                className="g-recaptcha"
+                data-sitekey="6Lco4jQdAAAAANFJt-uWbSKQfCnHn5vmY0RWnF0q"
+                style={{ marginBottom: "1rem" }}
+              />
               <button
                 className={ButtonStyles.button}
                 type="submit"

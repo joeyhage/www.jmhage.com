@@ -3,10 +3,9 @@ import HeroBannerStyles from "@styles/HeroBanner.module.css";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function HeroBanner(props) {
-  const { headline, subHeading, ctaText, internalLink, externalLink, image } =
-    props.data;
-
+export default function HeroBanner({
+  data: { headline, subHeading, ctaText, internalLink, externalLink, image },
+}) {
   return (
     <section className={HeroBannerStyles.heroBanner}>
       <Image
@@ -47,6 +46,7 @@ export default function HeroBanner(props) {
             <a
               href={externalLink}
               className={ButtonStyles.button}
+              style={{ fontFamily: "Roboto" }}
               rel="nofollow noreferrer"
               target="_blank"
             >

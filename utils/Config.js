@@ -15,8 +15,12 @@ export const Config = {
       url: SITE_URL,
       slug: "/",
     },
+    about: {
+      url: `${SITE_URL}/about`,
+      slug: "/about",
+    },
     projects: {
-      url: SITE_URL,
+      url: `${SITE_URL}/projects`,
       slug: "/projects",
     },
     blogIndex: {
@@ -30,7 +34,7 @@ export const Config = {
       slug: "/blog/[slug]",
     },
     contact: {
-      url: SITE_URL,
+      url: `${SITE_URL}/contact`,
       slug: "/contact",
     },
     notFound: {
@@ -46,6 +50,10 @@ export const Config = {
     {
       displayName: "Home",
       path: "/",
+    },
+    {
+      displayName: "About",
+      path: "/about",
     },
     {
       displayName: "Projects",

@@ -2,8 +2,13 @@ import { Config } from "@utils/Config";
 import OpenGraph from "@utils/OpenGraph";
 import Head from "next/head";
 
-export default function PageMeta(props) {
-  const { title, description, url, canonical } = props;
+export default function PageMeta({
+  children,
+  title,
+  description,
+  url,
+  canonical,
+}) {
   const siteTitle = `${title} | ${Config.site.title}`;
 
   return (
@@ -13,14 +18,17 @@ export default function PageMeta(props) {
       {canonical && <link rel="canonical" href={canonical} />}
 
       <meta name="title" content={siteTitle} />
-      <meta property="og:title" content={title} />
+      <meta property="og:title" content={siteTitle} />
 
       <meta name="description" content={description} />
       <meta property="og:description" content={description} />
 
       <meta property="og:url" content={url} />
 
-      <meta property="og:image" content={OpenGraph.generateImageUrl(title)} />
+      <meta
+        property="og:image"
+        content={OpenGraph.generateImageUrl(siteTitle)}
+      />
 
       <link rel="icon" href="/favicon.ico" />
 
@@ -46,12 +54,12 @@ export default function PageMeta(props) {
       <meta name="msapplication-TileColor" content="#283848" />
       <meta name="theme-color" content="#283848" />
       <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
       <link
         href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap"
         rel="stylesheet"
       />
-      {props.children}
+      {children}
     </Head>
   );
 }
