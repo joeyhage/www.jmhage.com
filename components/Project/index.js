@@ -19,7 +19,8 @@ export default function Project({ project }) {
         richTextBodyField={project.body}
         renderH2Links={true}
       />
-      {project.externalUrl && <ExternalUrl url={project.externalUrl} />}
+      {project.externalUrl && <ExternalUrl url={project.externalUrl}>Project link</ExternalUrl>}
+      {project.sourceCodeUrl && <ExternalUrl url={project.sourceCodeUrl}>Source code link</ExternalUrl>}
     </article>
   );
 }
