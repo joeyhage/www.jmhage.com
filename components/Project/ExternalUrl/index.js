@@ -7,7 +7,7 @@ export default function ExternalUrl({ children, url }) {
   }
 
   return (
-    <div>
+    <div className="mb-6">
       <h2 className="title is-4">{children}</h2>
       <p className={ExternalUrlStyles.externalUrl__text}>
         <Link href={url}>
