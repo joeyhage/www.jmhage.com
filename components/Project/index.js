@@ -1,12 +1,14 @@
 import ExternalUrl from "@components/Project/ExternalUrl";
+import Tags from "@components/Project/Tags";
 import RichTextPageContent from "@components/RichTextPageContent";
 import RichTextPageContentStyles from "@styles/RichTextPageContent.module.css";
 import TypographyStyles from "@styles/Typography.module.css";
 import Image from "next/image";
 
-export default function Project({ project }) {
+export default function Project({ project, topics }) {
   return (
     <article className={RichTextPageContentStyles.page}>
+      {!!topics && <Tags tags={topics} />}
       <h1 className={TypographyStyles.heading__h1}>{project.title}</h1>
       <figure className="image is-16by9 mb-5">
         <Image
@@ -19,7 +21,8 @@ export default function Project({ project }) {
         richTextBodyField={project.body}
         renderH2Links={true}
       />
-      {project.externalUrl && <ExternalUrl url={project.externalUrl} />}
+      {project.externalUrl && <ExternalUrl url={project.externalUrl}>Project link</ExternalUrl>}
+      {project.sourceCodeUrl && <ExternalUrl url={project.sourceCodeUrl}>Source code link</ExternalUrl>}
     </article>
   );
 }

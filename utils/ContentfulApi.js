@@ -586,6 +586,7 @@ export default class ContentfulApi {
           slug
           excerpt
           externalUrl
+          sourceCodeUrl
           previewWide {
             sys {
               id

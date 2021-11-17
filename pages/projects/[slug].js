@@ -6,7 +6,7 @@ import { Config } from "@utils/Config";
 import ContentfulApi from "@utils/ContentfulApi";
 
 export default function ProjectWrapper(props) {
-  const { assets, project, preview } = props;
+  const { assets, project, preview, topics } = props;
 
   return (
     <MainLayout assets={assets} preview={preview}>
@@ -16,7 +16,7 @@ export default function ProjectWrapper(props) {
         url={`${Config.pageMeta.projectIndex.url}/${project.slug}`}
       />
       <ContentWrapper>
-        <Project project={project} />
+        <Project project={project} topics={topics} />
       </ContentWrapper>
     </MainLayout>
   );
@@ -52,12 +52,28 @@ export async function getStaticProps({ params, preview = false }) {
   }
 
   const assets = await ContentfulApi.getSiteAssets();
+  const topics = await getGitHubTopics(project.sourceCodeUrl);
 
   return {
     props: {
       assets,
       preview,
       project,
+      topics,
     },
   };
+}
+
+async function getGitHubTopics(sourceCodeUrl) {
+  if (sourceCodeUrl && sourceCodeUrl.startsWith("https://github.com/")) {
+    try {
+      const data = await fetch(`https://api.github.com/repos/${sourceCodeUrl.split("/").slice(3).join("/")}/topics`).then((response) =>
+        response.json(),
+      );
+      return data.names;
+    } catch (error) {
+      console.error("could not get GitHub topics", error);
+    }
+  }
+  return [];
 }
