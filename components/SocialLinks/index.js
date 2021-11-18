@@ -12,7 +12,7 @@ const socialLinksList = [
   },
   {
     name: "LinkedIn",
-    url: `https://linkedin.com/in/${Config.pageMeta.openGraph.githubUser}`,
+    url: `https://linkedin.com/in/${Config.pageMeta.openGraph.linkedInUser}`,
     ariaLabel: "Connect with me on LinkedIn",
     svg: <LinkedIn />,
   },
