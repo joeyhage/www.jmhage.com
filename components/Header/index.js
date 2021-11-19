@@ -31,16 +31,16 @@ export default function Header({ assets }) {
       <nav className={HeaderStyles.header__nav} role="navigation">
         <ul className={HeaderStyles.header__navList}>
           {Config.menuLinks.map((link) => {
-            const onBlogPost =
-              router.pathname === Config.pageMeta.post.slug &&
-              link.path === Config.pageMeta.blogIndex.slug;
+            const onProject =
+              router.pathname === Config.pageMeta.project.slug &&
+              link.path === Config.pageMeta.projectIndex.slug;
 
-            const onBlogIndexPage =
-              router.pathname === Config.pageMeta.blogIndexPage.slug &&
-              link.path === Config.pageMeta.blogIndex.slug;
+            const onProjectIndexPage =
+              router.pathname === Config.pageMeta.projectIndexPage.slug &&
+              link.path === Config.pageMeta.projectIndex.slug;
 
             const isActive =
-              onBlogPost || onBlogIndexPage || router.pathname === link.path;
+              onProject || onProjectIndexPage || router.pathname === link.path;
             const isActiveClass = isActive
               ? ` ${HeaderStyles.header__navListItem__active}`
               : "";

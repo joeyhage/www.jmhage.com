@@ -29,16 +29,6 @@ export const Config = {
     project: {
       slug: "/projects/[slug]",
     },
-    blogIndex: {
-      url: `${SITE_URL}/blog`,
-      slug: "/blog",
-    },
-    blogIndexPage: {
-      slug: "/blog/page/[page]",
-    },
-    post: {
-      slug: "/blog/[slug]",
-    },
     contact: {
       url: `${SITE_URL}/contact`,
       slug: "/contact",
@@ -64,10 +54,6 @@ export const Config = {
     {
       displayName: "Projects",
       path: "/projects",
-    },
-    {
-      displayName: "Blog",
-      path: "/blog",
     },
     {
       displayName: "Contact",

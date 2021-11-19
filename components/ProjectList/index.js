@@ -1,4 +1,4 @@
-import Pagination from "@components/PostList/Pagination";
+import Pagination from "@components/ProjectList/Pagination";
 import { Config } from "@utils/Config";
 import Image from "next/image";
 import Link from "next/link";

@@ -113,293 +113,6 @@ export default class ContentfulApi {
   }
 
   /**
-   * Fetch a batch of blog post slugs (by given page number).
-   *
-   * This method queries the GraphQL API for a single batch of blog post slugs.
-   *
-   * The query limit of 100 is the maximum number of slugs
-   * we can fetch with this query due to GraphQL complexity costs.
-   *
-   * For more information about GraphQL query complexity, visit:
-   * https://www.contentful.com/developers/videos/learn-graphql/#graphql-fragments-and-query-complexity
-   *
-   * param: page (number)
-   *
-   */
-  static async getPaginatedSlugs(page) {
-    const queryLimit = 100;
-    const skip = page === 1 ? 0 : (page - 1) * queryLimit;
-
-    const variables = { limit: queryLimit, skip };
-
-    const query = `query GetPaginatedSlugs($limit: Int!, $skip: Int!) {
-        blogPostCollection(limit: $limit, skip: $skip, order: date_DESC) {
-          total
-          items {
-            slug
-            }
-          }
-        }`;
-
-    const response = await this.callContentful(query, variables);
-
-    const { total } = response.data.blogPostCollection;
-    const slugs = response.data.blogPostCollection.items
-      ? response.data.blogPostCollection.items.map((item) => item.slug)
-      : [];
-
-    return { slugs, total };
-  }
-
-  /**
-   * Fetch all blog post slugs.
-   *
-   * This method queries the GraphQL API for blog post slugs
-   * in batches that accounts for the query complexity cost,
-   * and returns them in one array.
-   *
-   * This method is used on pages/blog/[slug] inside getStaticPaths() to
-   * generate all dynamic blog post routes.
-   *
-   * For more information about GraphQL query complexity, visit:
-   * https://www.contentful.com/developers/videos/learn-graphql/#graphql-fragments-and-query-complexity
-   *
-   */
-  static async getAllPostSlugs() {
-    let page = 1;
-    let shouldQueryMoreSlugs = true;
-    const returnSlugs = [];
-
-    while (shouldQueryMoreSlugs) {
-      const response = await this.getPaginatedSlugs(page);
-
-      if (response.slugs.length > 0) {
-        returnSlugs.push(...response.slugs);
-      }
-
-      shouldQueryMoreSlugs = returnSlugs.length < response.total;
-      page++;
-    }
-
-    return returnSlugs;
-  }
-
-  /**
-   * Fetch a single blog post by slug.
-   *
-   * This method is used on pages/blog/[slug] to fetch the data for
-   * individual blog posts at build time, which are prerendered as
-   * static HTML.
-   *
-   * The content type uses the powerful Rich Text field type for the
-   * body of the post.
-   *
-   * This query fetches linked assets (i.e. images) and entries
-   * (i.e. video embed and code block entries) that are embedded
-   * in the Rich Text field. This is rendered to the page using
-   * @components/RichTextPageContent.
-   *
-   * For more information on Rich Text fields in Contentful, view the
-   * documentation here: https://www.contentful.com/developers/docs/concepts/rich-text/
-   *
-   * Linked assets and entries are parsed and rendered using the npm package
-   * @contentful/rich-text-react-renderer
-   *
-   * https://www.npmjs.com/package/@contentful/rich-text-react-renderer
-   *
-   * param: slug (string)
-   *
-   */
-  static async getPostBySlug(slug, options = defaultOptions) {
-    const variables = { slug, preview: options.preview };
-    const query = `query GetPostBySlug($slug: String!, $preview: Boolean!) {
-      blogPostCollection(limit: 1, where: {slug: $slug}, preview: $preview) {
-        total
-        items {
-          sys {
-            id
-          }
-          date
-          title
-          slug
-          excerpt
-          tags
-          externalUrl
-          author {
-            name
-            description
-            image {
-              url
-              title
-              width
-              height
-              description
-            }
-          }
-          body {
-            json
-            links {
-              entries {
-                inline {
-                  sys {
-                    id
-                  }
-                  __typename
-                  ... on BlogPost {
-                    title
-                    slug
-                  }
-                }
-                block {
-                  sys {
-                    id
-                  }
-                  __typename
-                  ... on VideoEmbed {
-                    title
-                    embedUrl
-                  }
-                  ... on CodeBlock {
-                    description
-                    language
-                    code
-                  }
-                }
-              }
-              assets {
-                block {
-                  sys {
-                    id
-                  }
-                  url
-                  title
-                  width
-                  height
-                  description
-                }
-              }
-            }
-          }
-        }
-      }
-    }`;
-
-    const response = await this.callContentful(query, variables, options);
-    const post = response.data.blogPostCollection.items
-      ? response.data.blogPostCollection.items
-      : [];
-
-    return post.pop();
-  }
-
-  /**
-   * Fetch n post summaries that are displayed on pages/blog.js.
-   *
-   * This method accepts a parameter of a page number that calculates
-   * how many blog posts to skip in the GraphQL query.
-   *
-   * Set your desired page size in @utils/Config:
-   * Config.pagination.pageSize
-   *
-   * The page size is currently set to 2 so you can view how the pagination
-   * works on a fresh clone of the repository.
-   *
-   * param: page (number)
-   *
-   */
-  static async getPaginatedPostSummaries(page) {
-    /**
-     * Calculate the skip parameter for the query based on the incoming page number.
-     * For example, if page === 2, and your page length === 3,
-     * the skip parameter would be calculated as 3 (the length of a page)
-     * therefore skipping the results of page 1.
-     */
-    const skip = page === 1 ? 0 : (page - 1) * Config.pagination.pageSize;
-
-    const variables = { limit: Config.pagination.pageSize, skip };
-
-    const query = `query GetPaginatedPostSummaries($limit: Int!, $skip: Int!) {
-        blogPostCollection(limit: $limit, skip: $skip, order: date_DESC) {
-          total
-          items {
-            sys {
-              id
-            }
-            date
-            title
-            slug
-            excerpt
-            tags
-          }
-        }
-      }`;
-
-    const response = await this.callContentful(query, variables);
-
-    const paginatedPostSummaries = response.data.blogPostCollection
-      ? response.data.blogPostCollection
-      : { total: 0, items: [] };
-
-    return paginatedPostSummaries;
-  }
-
-  /**
-   * Fetch n recent post summaries that are displayed on pages/index.js.
-   *
-   * This query is purposefully not paginated as it serves as a single
-   * responsibility function to display a fixed size group of posts.
-   *
-   * Set your desired recent post list size in @utils/Config:
-   * Config.pagination.recentPostsSize
-   *
-   */
-  static async getRecentPostList() {
-    const variables = { limit: Config.pagination.recentPostsSize };
-    const query = `query GetRecentPostList($limit: Int!) {
-      blogPostCollection(limit: $limit, order: date_DESC) {
-        items {
-          sys {
-            id
-          }
-          date
-          title
-          slug
-          excerpt
-          tags
-        }
-      }
-    }`;
-
-    const response = await this.callContentful(query, variables);
-
-    const recentPosts = response.data.blogPostCollection.items
-      ? response.data.blogPostCollection.items
-      : [];
-
-    return recentPosts;
-  }
-
-  /**
-   * Fetch the total number of blog posts.
-   */
-  static async getTotalPostsNumber() {
-    const query = `
-      {
-        blogPostCollection {
-          total
-        }
-      }
-    `;
-
-    const response = await this.callContentful(query);
-    const totalPosts = response.data.blogPostCollection.total
-      ? response.data.blogPostCollection.total
-      : 0;
-
-    return totalPosts;
-  }
-
-  /**
    * Fetch the total number of projects.
    */
   static async getTotalProjectsNumber() {
@@ -412,11 +125,11 @@ export default class ContentfulApi {
     `;
 
     const response = await this.callContentful(query);
-    const totalPosts = response.data.projectCollection.total
+    const totalProjects = response.data.projectCollection.total
       ? response.data.projectCollection.total
       : 0;
 
-    return totalPosts;
+    return totalProjects;
   }
 
   /**
@@ -440,7 +153,7 @@ export default class ContentfulApi {
     const variables = { limit: queryLimit, skip };
 
     const query = `query GetPaginatedProjectSlugs($limit: Int!, $skip: Int!) {
-      projectCollection(limit: $limit, skip: $skip) {
+      projectCollection(limit: $limit, skip: $skip, order: sys_publishedAt_DESC) {
         total
         items {
           slug
@@ -512,7 +225,7 @@ export default class ContentfulApi {
     const variables = { limit: queryLimit, skip };
 
     const query = `query GetPaginatedProjects($limit: Int!, $skip: Int!) {
-      projectCollection(limit: $limit, skip: $skip) {
+      projectCollection(limit: $limit, skip: $skip, order: sys_publishedAt_DESC) {
         total
         items {
           sys {

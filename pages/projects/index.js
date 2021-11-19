@@ -26,7 +26,7 @@ export default function ProjectIndex(props) {
       <PageMeta
         title={pageTitle}
         description={pageDescription}
-        url={Config.pageMeta.blogIndex.url}
+        url={Config.pageMeta.projectIndex.url}
       />
 
       {pageContent.heroBanner !== null && (

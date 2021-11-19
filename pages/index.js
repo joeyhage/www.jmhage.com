@@ -3,13 +3,12 @@ import PageMeta from "@components/PageMeta";
 import ContentfulApi from "@utils/ContentfulApi";
 import RichTextPageContent from "@components/RichTextPageContent";
 import MainLayout from "@layouts/main";
-import RecentPostList from "@components/RecentPostList";
 import HeroBanner from "@components/HeroBanner";
 import ContentWrapper from "@components/ContentWrapper";
 import PageContentWrapper from "@components/PageContentWrapper";
 
 export default function Home(props) {
-  const { assets, pageContent, recentPosts, preview } = props;
+  const { assets, pageContent, preview } = props;
 
   const pageTitle = pageContent ? pageContent.title : "Home";
 
@@ -36,7 +35,6 @@ export default function Home(props) {
               <RichTextPageContent richTextBodyField={pageContent.body} />
             </PageContentWrapper>
           )}
-          <RecentPostList posts={recentPosts} />
         </ContentWrapper>
       </MainLayout>
     </>
@@ -51,7 +49,6 @@ export async function getStaticProps({ preview = false }) {
     },
   );
 
-  const recentPosts = await ContentfulApi.getRecentPostList();
   const assets = await ContentfulApi.getSiteAssets();
 
   return {
@@ -59,7 +56,6 @@ export async function getStaticProps({ preview = false }) {
       assets,
       preview,
       pageContent: pageContent || null,
-      recentPosts,
     },
   };
 }

@@ -1,6 +1,5 @@
 import Footer from "@components/Footer";
 import Header from "@components/Header";
-import PreviewBanner from "@components/PreviewBanner";
 import GlobalStyles from "./main.styles.js";
 
 export default function MainLayout({ assets, children, preview }) {
