@@ -71,7 +71,7 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params, preview = false }) {
   const projects = await ContentfulApi.getPaginatedProjects(params.page);
-  const totalPages = Math.ceil(projects.total / Config.pagination.pageSize);
+  const totalPages = Math.ceil(projects.toEtal / Config.pagination.pageSize);
   const pageContent = await ContentfulApi.getPageContentBySlug(
     Config.pageMeta.projectIndex.slug,
     {

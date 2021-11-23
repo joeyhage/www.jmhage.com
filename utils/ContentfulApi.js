@@ -219,10 +219,9 @@ export default class ContentfulApi {
    *
    */
   static async getPaginatedProjects(page) {
-    const queryLimit = 10;
-    const skip = page === 1 ? 0 : (page - 1) * queryLimit;
+    const skip = page === 1 ? 0 : (page - 1) * Config.pagination.pageSize;
 
-    const variables = { limit: queryLimit, skip };
+    const variables = { limit: Config.pagination.pageSize, skip };
 
     const query = `query GetPaginatedProjects($limit: Int!, $skip: Int!) {
       projectCollection(limit: $limit, skip: $skip, order: sys_publishedAt_DESC) {

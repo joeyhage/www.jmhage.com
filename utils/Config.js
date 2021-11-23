@@ -39,7 +39,7 @@ export const Config = {
     },
   },
   pagination: {
-    pageSize: 2,
+    pageSize: 4,
   },
   menuLinks: [
     {
