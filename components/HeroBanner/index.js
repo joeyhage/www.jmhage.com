@@ -1,6 +1,6 @@
+import ContentfulImage from "@components/ContentfulImage";
 import ButtonStyles from "@styles/Button.module.css";
 import HeroBannerStyles from "@styles/HeroBanner.module.css";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function HeroBanner({
@@ -8,7 +8,7 @@ export default function HeroBanner({
 }) {
   return (
     <section className={HeroBannerStyles.heroBanner}>
-      <Image
+      <ContentfulImage
         className={HeroBannerStyles.heroBanner__bgImg}
         layout="fill"
         priority={true}

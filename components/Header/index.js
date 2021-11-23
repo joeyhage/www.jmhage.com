@@ -1,7 +1,7 @@
+import ContentfulImage from "@components/ContentfulImage";
 import SocialLinks from "@components/SocialLinks";
 import HeaderStyles from "@styles/Header.module.css";
 import { Config } from "@utils/Config";
-import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -19,7 +19,7 @@ export default function Header({ assets }) {
             className={HeaderStyles.header__logoContainerLink}
             aria-label="Navigate to home page"
           >
-            <Image
+            <ContentfulImage
               src={headerImage.url}
               height={96}
               width={96}

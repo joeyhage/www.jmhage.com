@@ -1,9 +1,9 @@
+import ContentfulImage from "@components/ContentfulImage";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, INLINES, MARKS } from "@contentful/rich-text-types";
 import RichTextPageContentStyles from "@styles/RichTextPageContent.module.css";
 import TypographyStyles from "@styles/Typography.module.css";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import Link from "next/link";
 import LinkIcon from "./svg/LinkIcon";
 
@@ -175,7 +175,7 @@ export function getRichTextRenderOptions(links, options) {
         } else {
           return (
             <div className={RichTextPageContentStyles.page__imgContainer}>
-              <Image
+              <ContentfulImage
                 src={url}
                 alt={description}
                 height={height}

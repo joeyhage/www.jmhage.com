@@ -1,6 +1,6 @@
+import ContentfulImage from "@components/ContentfulImage";
 import Pagination from "@components/ProjectList/Pagination";
 import { Config } from "@utils/Config";
-import Image from "next/image";
 import Link from "next/link";
 
 export default function ProjectList(props) {
@@ -17,11 +17,18 @@ export default function ProjectList(props) {
             <article className="card">
               <div className="card-image" style={borderBottomStyle}>
                 <figure className="image is-square">
-                  <Image
-                    src={project.preview.url}
-                    alt={project.preview.title}
-                    layout="fill"
-                  />
+                  <Link
+                    href={`${Config.pageMeta.projectIndex.slug}/${project.slug}`}
+                  >
+                    <a>
+                      <ContentfulImage
+                        src={`${project.preview.url}`}
+                        alt={project.preview.title}
+                        layout="fill"
+                        quality={50}
+                      />
+                    </a>
+                  </Link>
                 </figure>
               </div>
               <header style={{ borderBottom: "1px solid rgb(10 10 10 / 10%)" }}>
