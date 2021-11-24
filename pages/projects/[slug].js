@@ -8,7 +8,6 @@ import ContentfulApi from "@utils/ContentfulApi";
 
 export default function ProjectWrapper(props) {
   const { assets, project, preview, topics } = props;
-  console.log(project.previewWide.base64)
 
   return (
     <MainLayout assets={assets} preview={preview}>
