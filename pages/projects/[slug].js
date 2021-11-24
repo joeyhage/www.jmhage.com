@@ -2,11 +2,13 @@ import ContentWrapper from "@components/ContentWrapper";
 import PageMeta from "@components/PageMeta";
 import Project from "@components/Project";
 import MainLayout from "@layouts/main";
+import * as PlaceholderImage from "@utils//PlaceholderImage";
 import { Config } from "@utils/Config";
 import ContentfulApi from "@utils/ContentfulApi";
 
 export default function ProjectWrapper(props) {
   const { assets, project, preview, topics } = props;
+  console.log(project.previewWide.base64)
 
   return (
     <MainLayout assets={assets} preview={preview}>
@@ -51,6 +53,12 @@ export async function getStaticProps({ params, preview = false }) {
     };
   }
 
+  if (project.previewWide) {
+    project.previewWide.base64 = await PlaceholderImage.toBase64(
+      project.previewWide,
+    );
+  }
+
   const assets = await ContentfulApi.getSiteAssets();
   const topics = await getGitHubTopics(project.sourceCodeUrl);
 
@@ -67,9 +75,12 @@ export async function getStaticProps({ params, preview = false }) {
 async function getGitHubTopics(sourceCodeUrl) {
   if (sourceCodeUrl && sourceCodeUrl.startsWith("https://github.com/")) {
     try {
-      const data = await fetch(`https://api.github.com/repos/${sourceCodeUrl.split("/").slice(3).join("/")}/topics`).then((response) =>
-        response.json(),
-      );
+      const data = await fetch(
+        `https://api.github.com/repos/${sourceCodeUrl
+          .split("/")
+          .slice(3)
+          .join("/")}/topics`,
+      ).then((response) => response.json());
       return data.names;
     } catch (error) {
       console.error("could not get GitHub topics", error);

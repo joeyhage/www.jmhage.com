@@ -1,5 +1,4 @@
 import css from "styled-jsx/css";
-import "prismjs/themes/prism-okaidia.css";
 
 export default css.global`
   :root {
@@ -50,11 +49,6 @@ export default css.global`
   * {
     margin: 0;
     box-sizing: border-box;
-  }
-
-  /* accessibility fixes for prismjs */
-  .token.comment {
-    color: #adb8c2 !important;
   }
 
   .token.tag, .token.constant {

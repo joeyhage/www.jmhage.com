@@ -3,7 +3,6 @@ import { documentToReactComponents } from "@contentful/rich-text-react-renderer"
 import { BLOCKS, INLINES, MARKS } from "@contentful/rich-text-types";
 import RichTextPageContentStyles from "@styles/RichTextPageContent.module.css";
 import TypographyStyles from "@styles/Typography.module.css";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import LinkIcon from "./svg/LinkIcon";
 
@@ -16,10 +15,6 @@ function slugifyString(string) {
     .replace(/-+$/, "")
     .toLowerCase();
 }
-
-const DynamicCodeBlock = dynamic(() => import("./CodeBlock"));
-
-const DynamicVideoEmbed = dynamic(() => import("./VideoEmbed"));
 
 export function getRichTextRenderOptions(links, options) {
   const { renderH2Links, renderNativeImg } = options;
@@ -145,18 +140,11 @@ export function getRichTextRenderOptions(links, options) {
             return null;
         }
       },
-      [BLOCKS.EMBEDDED_ENTRY]: (node, children) => {
+      [BLOCKS.EMBEDDED_ENTRY]: (node) => {
         const entry = entryMap.get(node.data.target.sys.id);
         const { __typename } = entry;
 
         switch (__typename) {
-          case "VideoEmbed":
-            const { embedUrl, title } = entry;
-            return <DynamicVideoEmbed embedUrl={embedUrl} title={title} />;
-          case "CodeBlock":
-            const { language, code } = entry;
-
-            return <DynamicCodeBlock language={language} code={code} />;
           default:
             return null;
         }

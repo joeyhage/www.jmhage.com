@@ -11,9 +11,10 @@ export default function HeroBanner({
       <ContentfulImage
         className={HeroBannerStyles.heroBanner__bgImg}
         layout="fill"
-        priority={true}
         src={image.url}
         alt={image.description}
+        placeholder="blur"
+        blurDataURL={image.base64}
       />
       <span className={HeroBannerStyles.heroBanner__overlay}></span>
       <div className={HeroBannerStyles.heroBanner__inner}>

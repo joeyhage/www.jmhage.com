@@ -15,7 +15,8 @@ export default function Project({ project, topics }) {
           src={project.previewWide.url}
           alt={project.previewWide.title}
           layout="fill"
-          priority={true}
+          placeholder="blur"
+          blurDataURL={project.previewWide.base64}
         />
       </figure>
       <RichTextPageContent

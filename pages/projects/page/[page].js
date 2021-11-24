@@ -5,6 +5,7 @@ import PageMeta from "@components/PageMeta";
 import ProjectList from "@components/ProjectList";
 import RichTextPageContent from "@components/RichTextPageContent";
 import MainLayout from "@layouts/main";
+import * as PlaceholderImage from "@utils//PlaceholderImage";
 import { Config } from "@utils/Config";
 import ContentfulApi from "@utils/ContentfulApi";
 
@@ -71,13 +72,26 @@ export async function getStaticPaths() {
 
 export async function getStaticProps({ params, preview = false }) {
   const projects = await ContentfulApi.getPaginatedProjects(params.page);
+
   const totalPages = Math.ceil(projects.toEtal / Config.pagination.pageSize);
+
   const pageContent = await ContentfulApi.getPageContentBySlug(
     Config.pageMeta.projectIndex.slug,
     {
       preview: preview,
     },
   );
+
+  if (pageContent.heroBanner) {
+    pageContent.heroBanner.image.base64 = await PlaceholderImage.toBase64(
+      pageContent.heroBanner.image,
+    );
+  }
+
+  await projects.items.forEach(async (project) => {
+    project.preview.base64 = await PlaceholderImage.toBase64(project.preview);
+  });
+
   const assets = await ContentfulApi.getSiteAssets();
 
   return {

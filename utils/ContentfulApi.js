@@ -74,15 +74,6 @@ export default class ContentfulApi {
                     id
                   }
                   __typename
-                  ... on VideoEmbed {
-                    title
-                    embedUrl
-                  }
-                  ... on CodeBlock {
-                    description
-                    language
-                    code
-                  }
                 }
               }
               assets {
@@ -327,11 +318,6 @@ export default class ContentfulApi {
                     id
                   }
                   __typename
-                  ... on CodeBlock {
-                    description
-                    language
-                    code
-                  }
                 }
               }
               assets {

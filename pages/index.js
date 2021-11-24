@@ -1,11 +1,12 @@
-import { Config } from "@utils/Config";
+import ContentWrapper from "@components/ContentWrapper";
+import HeroBanner from "@components/HeroBanner";
+import PageContentWrapper from "@components/PageContentWrapper";
 import PageMeta from "@components/PageMeta";
-import ContentfulApi from "@utils/ContentfulApi";
 import RichTextPageContent from "@components/RichTextPageContent";
 import MainLayout from "@layouts/main";
-import HeroBanner from "@components/HeroBanner";
-import ContentWrapper from "@components/ContentWrapper";
-import PageContentWrapper from "@components/PageContentWrapper";
+import * as PlaceholderImage from "@utils//PlaceholderImage";
+import { Config } from "@utils/Config";
+import ContentfulApi from "@utils/ContentfulApi";
 
 export default function Home(props) {
   const { assets, pageContent, preview } = props;
@@ -48,6 +49,12 @@ export async function getStaticProps({ preview = false }) {
       preview: preview,
     },
   );
+
+  if (pageContent.heroBanner) {
+    pageContent.heroBanner.image.base64 = await PlaceholderImage.toBase64(
+      pageContent.heroBanner.image,
+    );
+  }
 
   const assets = await ContentfulApi.getSiteAssets();
 

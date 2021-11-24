@@ -5,6 +5,7 @@ import PageMeta from "@components/PageMeta";
 import ProjectList from "@components/ProjectList";
 import RichTextPageContent from "@components/RichTextPageContent";
 import MainLayout from "@layouts/main";
+import * as PlaceholderImage from "@utils//PlaceholderImage";
 import { Config } from "@utils/Config";
 import ContentfulApi from "@utils/ContentfulApi";
 
@@ -58,9 +59,17 @@ export async function getStaticProps({ preview = false }) {
     },
   );
 
-  const totalPages = Math.ceil(
-    projects.total / Config.pagination.pageSize,
-  );
+  if (pageContent.heroBanner) {
+    pageContent.heroBanner.image.base64 = await PlaceholderImage.toBase64(
+      pageContent.heroBanner.image,
+    );
+  }
+
+  await projects.items.forEach(async (project) => {
+    project.preview.base64 = await PlaceholderImage.toBase64(project.preview);
+  });
+
+  const totalPages = Math.ceil(projects.total / Config.pagination.pageSize);
 
   const assets = await ContentfulApi.getSiteAssets();
 

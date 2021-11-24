@@ -7,6 +7,7 @@ import { useForm, ValidationError } from "@formspree/react";
 import MainLayout from "@layouts/main";
 import ButtonStyles from "@styles/Button.module.css";
 import FormStyles from "@styles/Form.module.css";
+import * as PlaceholderImage from "@utils//PlaceholderImage";
 import { Config } from "@utils/Config";
 import ContentfulApi from "@utils/ContentfulApi";
 
@@ -135,6 +136,12 @@ export async function getStaticProps({ preview = false }) {
       preview: preview,
     },
   );
+
+  if (pageContent.heroBanner) {
+    pageContent.heroBanner.image.base64 = await PlaceholderImage.toBase64(
+      pageContent.heroBanner.image,
+    );
+  }
 
   const assets = await ContentfulApi.getSiteAssets();
 
