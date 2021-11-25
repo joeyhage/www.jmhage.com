@@ -11,7 +11,7 @@ export function contentfulLoader({ src, width, quality }) {
     params.push("q=" + quality);
   }
 
-  return `${normalizeSrc(src)}?${params.join("&")}`;
+  return `${normalizeSrc(src)}?${params.join("&")}&fm=jpg`;
 }
 
 export default function ContentfulImage(props) {
