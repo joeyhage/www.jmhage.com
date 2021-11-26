@@ -7,7 +7,7 @@ export async function toBase64(image) {
       src: image.url,
       width: 3840,
       quality: 100,
-    }),
+    }) + "&fm=jpg",
   );
   return base64;
 }
