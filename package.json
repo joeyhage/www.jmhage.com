@@ -9,7 +9,7 @@
     "start": "next start"
   },
   "dependencies": {
-    "@contentful/rich-text-react-renderer": "^14.1.2",
+    "@contentful/rich-text-react-renderer": "^15.11.1",
     "@formspree/react": "^2.2.4",
     "next": "^11.0.0",
     "next-sitemap": "^1.6.9",
