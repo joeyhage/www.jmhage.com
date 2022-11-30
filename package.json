@@ -16,7 +16,6 @@
     "plaiceholder": "^2.5.0",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-google-recaptcha-v3": "^1.10.0",
     "react-markdown": "^8.0.0"
   },
   "license": "MIT",
