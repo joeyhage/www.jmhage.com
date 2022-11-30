@@ -10,16 +10,11 @@ import FormStyles from "@styles/Form.module.css";
 import * as PlaceholderImage from "@utils//PlaceholderImage";
 import { Config } from "@utils/Config";
 import ContentfulApi from "@utils/ContentfulApi";
-import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 export default function Contact(props) {
   const { assets, pageContent, preview } = props;
 
-  const { executeRecaptcha } = useGoogleReCaptcha();
-
-  const [formState, handleSubmit] = useForm("xrgrnkqp", {
-    data: { "g-recaptcha-response": executeRecaptcha }
-  });
+  const [formState, handleSubmit] = useForm("xrgrnkqp");
 
   const pageTitle = pageContent ? pageContent.title : "Contact Me";
 
@@ -28,98 +23,107 @@ export default function Contact(props) {
     : "Personal website for Joey Hage";
 
   return (
-    <>
-      <MainLayout assets={assets} preview={preview}>
-        <PageMeta
-          title={pageTitle}
-          description={pageDescription}
-          url={Config.pageMeta.home.url}
-        />
+    <MainLayout assets={assets} preview={preview}>
+      <PageMeta
+        title={pageTitle}
+        description={pageDescription}
+        url={Config.pageMeta.home.url}
+      >
+        <script
+          src="https://www.google.com/recaptcha/api.js"
+          async
+          defer
+        ></script>
+      </PageMeta>
 
-        {pageContent && pageContent.heroBanner !== null && (
-          <HeroBanner data={pageContent.heroBanner} />
+      {pageContent && pageContent.heroBanner !== null && (
+        <HeroBanner data={pageContent.heroBanner} />
+      )}
+
+      <ContentWrapper>
+        {pageContent && pageContent.body && (
+          <PageContentWrapper>
+            <RichTextPageContent richTextBodyField={pageContent.body} />
+          </PageContentWrapper>
         )}
-
-        <ContentWrapper>
-          {pageContent && pageContent.body && (
-            <PageContentWrapper>
-              <RichTextPageContent richTextBodyField={pageContent.body} />
-            </PageContentWrapper>
-          )}
-          {formState.succeeded ? (
-            <p style={{ textAlign: "center", fontSize: "1.5rem" }}>
-              Thanks for reaching out! I will get back to you soon.
-            </p>
-          ) : (
-            <form onSubmit={handleSubmit}>
-              <fieldset className={FormStyles.fieldset}>
-                <label htmlFor="full-name" className={FormStyles.label}>
-                  Full Name
-                </label>
-                <input
-                  className={FormStyles.field}
-                  type="text"
-                  name="name"
-                  id="full-name"
-                  placeholder="First and Last"
-                  required
-                />
-                <ValidationError
-                  prefix="Full Name"
-                  field="name"
-                  errors={formState.errors}
-                />
-                <label htmlFor="email-address" className={FormStyles.label}>
-                  Email Address
-                </label>
-                <input
-                  className={FormStyles.field}
-                  type="email"
-                  name="email"
-                  id="email-address"
-                  placeholder="email@domain.tld"
-                  required
-                />
-                <ValidationError
-                  prefix="Email Address"
-                  field="email"
-                  errors={formState.errors}
-                />
-                <label htmlFor="message" className={FormStyles.label}>
-                  Message
-                </label>
-                <textarea
-                  className={FormStyles.field}
-                  type="text"
-                  rows="5"
-                  name="message"
-                  id="message"
-                  required
-                ></textarea>
-                <ValidationError
-                  prefix="Message"
-                  field="message"
-                  errors={formState.errors}
-                />
-                <input
-                  type="hidden"
-                  name="_subject"
-                  id="email-subject"
-                  value="www.jmhage.com Contact Form Submission"
-                />
-              </fieldset>
-              <button
-                className={ButtonStyles.button}
-                type="submit"
-                disabled={formState.submitting}
-              >
-                Submit
-              </button>
-            </form>
-          )}
-        </ContentWrapper>
-      </MainLayout>
-    </>
+        {formState.succeeded ? (
+          <p style={{ textAlign: "center", fontSize: "1.5rem" }}>
+            Thanks for reaching out! I will get back to you soon.
+          </p>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <fieldset className={FormStyles.fieldset}>
+              <label htmlFor="full-name" className={FormStyles.label}>
+                Full Name
+              </label>
+              <input
+                className={FormStyles.field}
+                type="text"
+                name="name"
+                id="full-name"
+                placeholder="First and Last"
+                required
+              />
+              <ValidationError
+                prefix="Full Name"
+                field="name"
+                errors={formState.errors}
+              />
+              <label htmlFor="email-address" className={FormStyles.label}>
+                Email Address
+              </label>
+              <input
+                className={FormStyles.field}
+                type="email"
+                name="email"
+                id="email-address"
+                placeholder="email@domain.tld"
+                required
+              />
+              <ValidationError
+                prefix="Email Address"
+                field="email"
+                errors={formState.errors}
+              />
+              <label htmlFor="message" className={FormStyles.label}>
+                Message
+              </label>
+              <textarea
+                className={FormStyles.field}
+                type="text"
+                rows="5"
+                name="message"
+                id="message"
+                required
+              ></textarea>
+              <ValidationError
+                prefix="Message"
+                field="message"
+                errors={formState.errors}
+              />
+              <input
+                type="hidden"
+                name="_subject"
+                id="email-subject"
+                value="www.jmhage.com Contact Form Submission"
+              />
+            </fieldset>
+            <div
+              className="g-recaptcha"
+              data-sitekey="6Lco4jQdAAAAANFJt-uWbSKQfCnHn5vmY0RWnF0q"
+              style={{ marginBottom: "1rem" }}
+            ></div>
+            <button
+              className={ButtonStyles.button}
+              type="submit"
+              disabled={formState.submitting}
+            >
+              Submit
+            </button>
+          </form>
+        )}
+      </ContentWrapper>
+    </MainLayout>
   );
 }
 
