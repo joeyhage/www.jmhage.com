@@ -132,8 +132,11 @@ export function getRichTextRenderOptions(links, options) {
         switch (__typename) {
           case "BlogPost":
             return (
-              <Link href={`/blog/${entry.slug}`}>
-                <a className={TypographyStyles.inlineLink}>{entry.title}</a>
+              <Link
+                href={`/blog/${entry.slug}`}
+                className={TypographyStyles.inlineLink}
+              >
+                {entry.title}
               </Link>
             );
           default:

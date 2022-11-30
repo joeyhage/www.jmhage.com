@@ -14,18 +14,17 @@ export default function Header({ assets }) {
   return (
     <header className={HeaderStyles.header}>
       <div className={HeaderStyles.header__logoContainer}>
-        <Link href="/">
-          <a
-            className={HeaderStyles.header__logoContainerLink}
-            aria-label="Navigate to home page"
-          >
-            <ContentfulImage
-              src={headerImage.url}
-              height={96}
-              width={96}
-              alt={headerImage.description}
-            />
-          </a>
+        <Link
+          href="/"
+          className={HeaderStyles.header__logoContainerLink}
+          aria-label="Navigate to home page"
+        >
+          <ContentfulImage
+            src={headerImage.url}
+            height={96}
+            width={96}
+            alt={headerImage.description}
+          />
         </Link>
       </div>
       <nav className={HeaderStyles.header__nav} role="navigation">
@@ -50,10 +49,11 @@ export default function Header({ assets }) {
                 key={link.displayName}
                 className={HeaderStyles.header__navListItem + isActiveClass}
               >
-                <Link href={link.path}>
-                  <a className={HeaderStyles.header__navListItemLink}>
-                    {link.displayName}
-                  </a>
+                <Link
+                  href={link.path}
+                  className={HeaderStyles.header__navListItemLink}
+                >
+                  {link.displayName}
                 </Link>
               </li>
             );

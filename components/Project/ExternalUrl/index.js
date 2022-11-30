@@ -10,14 +10,13 @@ export default function ExternalUrl({ children, url }) {
     <div className="mb-6">
       <h2 className="title is-4">{children}</h2>
       <p className={ExternalUrlStyles.externalUrl__text}>
-        <Link href={url}>
-          <a
-            target="_blank"
-            rel="nofollow noreferrer"
-            className={ExternalUrlStyles.externalUrl__link}
-          >
-            {formatUrlForDisplay(url)}
-          </a>
+        <Link
+          href={url}
+          target="_blank"
+          rel="nofollow noreferrer"
+          className={ExternalUrlStyles.externalUrl__link}
+        >
+          {formatUrlForDisplay(url)}
         </Link>
       </p>
     </div>
