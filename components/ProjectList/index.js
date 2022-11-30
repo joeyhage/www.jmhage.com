@@ -34,14 +34,12 @@ export default function ProjectList(props) {
         <div className="card-image" style={borderBottomStyle}>
           <figure className="image is-square">
             <Link href={`${Config.pageMeta.projectIndex.slug}/${project.slug}`}>
-              <a>
-                <ContentfulImage
-                  src={`${project.preview.url}`}
-                  alt={project.preview.title}
-                  layout="fill"
-                  quality={50}
-                />
-              </a>
+              <ContentfulImage
+                src={`${project.preview.url}`}
+                alt={project.preview.title}
+                layout="fill"
+                quality={50}
+              />
             </Link>
           </figure>
         </div>
@@ -52,8 +50,11 @@ export default function ProjectList(props) {
           <div className="content">{project.excerpt}</div>
         </div>
         <footer className="card-footer">
-          <Link href={`${Config.pageMeta.projectIndex.slug}/${project.slug}`}>
-            <a className="card-footer-item">Read more</a>
+          <Link
+            href={`${Config.pageMeta.projectIndex.slug}/${project.slug}`}
+            className="card-footer-item"
+          >
+            Read more
           </Link>
         </footer>
       </article>

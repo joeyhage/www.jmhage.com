@@ -32,13 +32,12 @@ export default function HeroBanner({
         </div>
         {internalLink && ctaText && (
           <div className={HeroBannerStyles.heroBanner__ctaContainer}>
-            <Link href={internalLink}>
-              <a
-                className={ButtonStyles.button}
-                style={{ fontFamily: "Roboto" }}
-              >
-                {ctaText}
-              </a>
+            <Link
+              href={internalLink}
+              className={ButtonStyles.button}
+              style={{ fontFamily: "Roboto" }}
+            >
+              {ctaText}
             </Link>
           </div>
         )}
