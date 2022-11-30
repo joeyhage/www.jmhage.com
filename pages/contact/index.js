@@ -10,11 +10,16 @@ import FormStyles from "@styles/Form.module.css";
 import * as PlaceholderImage from "@utils//PlaceholderImage";
 import { Config } from "@utils/Config";
 import ContentfulApi from "@utils/ContentfulApi";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 
 export default function Contact(props) {
   const { assets, pageContent, preview } = props;
 
-  const [formState, handleSubmit] = useForm("xrgrnkqp");
+  const { executeRecaptcha } = useGoogleReCaptcha();
+
+  const [formState, handleSubmit] = useForm("xrgrnkqp", {
+    data: { "g-recaptcha-response": executeRecaptcha }
+  });
 
   const pageTitle = pageContent ? pageContent.title : "Contact Me";
 
@@ -29,13 +34,7 @@ export default function Contact(props) {
           title={pageTitle}
           description={pageDescription}
           url={Config.pageMeta.home.url}
-        >
-          <script
-            src="https://www.google.com/recaptcha/api.js"
-            async
-            defer
-          ></script>
-        </PageMeta>
+        />
 
         {pageContent && pageContent.heroBanner !== null && (
           <HeroBanner data={pageContent.heroBanner} />
@@ -109,11 +108,6 @@ export default function Contact(props) {
                   value="www.jmhage.com Contact Form Submission"
                 />
               </fieldset>
-              <div
-                className="g-recaptcha"
-                data-sitekey="6Lco4jQdAAAAANFJt-uWbSKQfCnHn5vmY0RWnF0q"
-                style={{ marginBottom: "1rem" }}
-              />
               <button
                 className={ButtonStyles.button}
                 type="submit"
