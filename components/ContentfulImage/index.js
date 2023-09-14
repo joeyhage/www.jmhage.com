@@ -15,5 +15,9 @@ export function contentfulLoader({ src, width, quality }) {
 }
 
 export default function ContentfulImage(props) {
-  return <Image loader={contentfulLoader} {...props} />;
+  const imageProps = {
+    ...props,
+    src: typeof props.src === 'string' ? props.src : JSON.stringify(props.src).replace(/"/g, ''),
+  };
+  return <Image loader={contentfulLoader} {...imageProps} />;
 }

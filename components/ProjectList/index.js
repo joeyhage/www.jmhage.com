@@ -34,12 +34,14 @@ export default function ProjectList(props) {
         <div className="card-image" style={borderBottomStyle}>
           <figure className="image is-square">
             <Link href={`${Config.pageMeta.projectIndex.slug}/${project.slug}`}>
-              <ContentfulImage
-                src={`${project.preview.url}`}
-                alt={project.preview.title}
-                layout="fill"
-                quality={50}
-              />
+              <a>
+                <ContentfulImage
+                  src={new String(project.preview.url)}
+                  alt={project.preview.title}
+                  layout="fill"
+                  quality={50}
+                />
+              </a>
             </Link>
           </figure>
         </div>

@@ -31,12 +31,14 @@ export default function Pagination({
           )}
           {!prevDisabled && (
             <Link href={prevPageUrl}>
-              <span
-                className={PaginationStyles.pagination__chevronContainer__left}
-              >
-                <ChevronLeft />
-              </span>
-              <span>Prev</span>
+              <a>
+                <span
+                  className={PaginationStyles.pagination__chevronContainer__left}
+                >
+                  <ChevronLeft />
+                </span>
+                <span>Prev</span>
+              </a>
             </Link>
           )}
         </li>
@@ -58,12 +60,14 @@ export default function Pagination({
           )}
           {!nextDisabled && (
             <Link href={nextPageUrl}>
-              <span>Next</span>
-              <span
-                className={PaginationStyles.pagination__chevronContainer__right}
-              >
-                <ChevronRight />
-              </span>
+              <a>
+                <span>Next</span>
+                <span
+                  className={PaginationStyles.pagination__chevronContainer__right}
+                >
+                  <ChevronRight />
+                </span>
+              </a>
             </Link>
           )}
         </li>

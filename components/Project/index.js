@@ -14,8 +14,10 @@ export default function Project({ project, topics }) {
         <ContentfulImage
           src={project.previewWide.url}
           alt={project.previewWide.title}
-          layout="fill"
+          style={{width: '100%', height: 'auto'}}
           placeholder="blur"
+          width={100}
+          height='auto'
           blurDataURL={project.previewWide.base64}
         />
       </figure>

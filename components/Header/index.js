@@ -19,12 +19,14 @@ export default function Header({ assets }) {
           className={HeaderStyles.header__logoContainerLink}
           aria-label="Navigate to home page"
         >
-          <ContentfulImage
-            src={headerImage.url}
-            height={96}
-            width={96}
-            alt={headerImage.description}
-          />
+          <a>
+            <ContentfulImage
+              src={headerImage.url}
+              height={96}
+              width={96}
+              alt={headerImage.description}
+            />
+          </a>
         </Link>
       </div>
       <nav className={HeaderStyles.header__nav} role="navigation">
